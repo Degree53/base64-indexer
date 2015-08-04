@@ -1,18 +1,25 @@
 {
   "name": "base64-image-converter",
   "version": "0.0.0",
-  "description": "",
-  "main": "converter.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Converts a collection of images to base64 strings",
+  "main": "main.js",
+  "dependencies": {
+    "imagemin": "~3.1.0",
+    "moment": "~2.9.0",
+    "yargs": "~3.17.1",
+    "mime": "~1.3.4",
+    "optimage": "~0.2.0"
   },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "node-mime": "^1.0.0",
     "moment": "^2.9.0",
     "mime": "^1.3.4",
-    "optimage": "^0.2.0",
-    "imagemin": "^3.1.0"
-  }
+    "imagemin": "^3.1.0",
+    "yargs": "^3.17.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Karl Purkhardt",
+  "license": "MIT"
 }
