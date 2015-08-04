@@ -109,6 +109,10 @@ function run(options) {
 	optimiseImages(options, convertFiles);
 }
 
+/**
+ * Determines if the script is being run directly from the command line
+ * and calls the run function with options passed in from argv.
+ */
 if (require.main === module) {
 	var options = {};
 	options.output = argv.output ? argv.output : null;
