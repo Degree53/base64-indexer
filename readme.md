@@ -1,6 +1,6 @@
 # Image to Base64
 
-Converts a specified set of images to base64 in bulk, outputting a JSON file that contains the results of each image.
+Converts a specified set of images to base64, outputting a JSON file that contains the results of each image.
 
 Useful when you want to asynchronously load a set of base64 images.
 

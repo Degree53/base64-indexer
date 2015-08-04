@@ -1,7 +1,7 @@
 {
-  "name": "base64-image-converter",
+  "name": "base64-image-bulk",
   "version": "0.0.0",
-  "description": "Converts a collection of images to base64 strings",
+  "description": "Converts a specified set of images to base64, outputting a JSON file that contains the results of each image.",
   "main": "main.js",
   "dependencies": {
     "imagemin": "~3.1.0",
