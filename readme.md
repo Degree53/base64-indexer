@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Degree53/base64-indexer.svg?branch=master)](https://travis-ci.org/Degree53/base64-indexer)
+
 # Base64 Indexer
 
 Converts a specified set of files to base64, outputting a JSON file that contains the result of each file.
