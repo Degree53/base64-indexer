@@ -1,14 +1,14 @@
-# Image to Base64
+# Image to Base64 JSON file
 
-Converts a specified set of images to base64, outputting a JSON file that contains the results of each image.
+Converts a specified set of images to base64, outputting a JSON file that contains the result of each image.
 
-Useful when you want to asynchronously load a set of base64 images.
+Useful when you want to asynchronously load a set of base64 images in a single request.
 
 # Command line Usage
 
     node main.js --glob=input/*.{gif,jpg,png,svg} --output=output/
 
-Converts all `.gif`, `.jpg`, `.png` and `.svg` images to base64 and outputs a JSON file containing the results of the conversion to `output/`
+The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base64` and outputs a `JSON` file containing the results of the conversion to `output/`.
 
 # Node Usage
 
@@ -24,12 +24,24 @@ Converts all `.gif`, `.jpg`, `.png` and `.svg` images to base64 and outputs a JS
 	    }
     });
 
-# Options
+The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base64` and outputs a `JSON` file containing the results of the conversion to `output/`.
 
-output 			Relative path to the output directory.  Defaults to 'output/'
+When the process successfully completes the `success` callback is called and "Conversion finished" is logged to the console.
 
-glob 			Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}'
+If the process fails for any reason the `error` callback will be called instead and the exception message will be logged to the console.
 
-success		Success callback - called after a successful conversion
+# Command Line Options
 
-error			Error callback - called if an error occurs during conversion
+| Option   | Description |
+|----------|-------------|
+| --output | Relative path to the output directory.  Defaults to 'output/' |
+| --glob   | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
+
+# Node options
+
+| Option  | Description |
+|---------|-------------|
+| output  | Relative path to the output directory.  Defaults to 'output/' |
+| glob    | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
+| success | Success callback - called after a successful conversion |
+| error   | Error callback - called if an error occurs during conversion
