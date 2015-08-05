@@ -23,6 +23,14 @@ var moment = require('moment');
 var Imagemin = require('imagemin');
 var path = require('path');
 var argv = require('yargs').argv;
+var silent = false;
+
+function log() {
+	if (silent) {
+		return;
+	}
+	console.log.apply(console, Array.prototype.slice.call(arguments));
+}
 
 /**
  * Optimises images matching the specified glob pattern.
@@ -74,9 +82,10 @@ function convertFiles(options, files) {
 	var buffer = [];
 	files.forEach(function(file) {
 		buffer.push(convertToBase64(file));
-		console.log('Converted file', path.basename(file.path));
+		log('Converted file', path.basename(file.path));
 	});
-	outputJsonFile(options, buffer);
+	var file = outputJsonFile(options, buffer);
+	options.success(file);
 }
 
 /**
@@ -97,12 +106,15 @@ function outputJsonFile(options, convertedFiles) {
 	
 	// Write the JSON string to the output file
 	fs.writeFileSync(file, contents);
+	
+	return file;
 }
 
 /**
  * Called with options to run this script and convert specified files to base64.
  */
 function run(options) {
+	silent = options.silent;
     options.error = options.error || function(err) {
 		throw err;
 	}
