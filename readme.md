@@ -39,7 +39,7 @@ If the process fails for any reason the `error` callback will be called instead 
 | --output | Relative path to the output directory.  Defaults to 'output/' |
 | --glob   | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
 
-# Node options
+# Node Options
 
 | Option  | Description |
 |---------|-------------|
