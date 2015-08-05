@@ -1,8 +1,8 @@
-# Image to Base64 JSON file
+# Base64 Indexer
 
-Converts a specified set of images to base64, outputting a JSON file that contains the result of each image.
+Converts a specified set of files to base64, outputting a JSON file that contains the result of each file.
 
-Useful when you want to asynchronously load a set of base64 images in a single request.
+Useful, for example, when you want to asynchronously load a set of base64 images in a single request.
 
 # Command line Usage
 

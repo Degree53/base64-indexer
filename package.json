@@ -1,7 +1,7 @@
 {
-  "name": "image-to-base64-json-file",
+  "name": "base64-indexer",
   "version": "1.0.0",
-  "description": "Converts a specified set of images to base64, outputting a JSON file that contains the result of each image.",
+  "description": "Converts a specified set of files to base64, outputting a JSON file that contains the result of each file.",
   "main": "main.js",
   "dependencies": {
     "imagemin": "~3.1.0",
