@@ -4,7 +4,7 @@ Converts a specified set of files to base64, outputting a JSON file that contain
 
 Useful, for example, when you want to asynchronously load a set of base64 images in a single request.
 
-# Command line Usage
+# Command Line Usage
 
     node main.js --glob=input/*.{gif,jpg,png,svg} --output=output/
 
