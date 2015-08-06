@@ -14,8 +14,8 @@ The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base
 
 # Node Usage
 
-    var imageToBase64 = require('base64-image-bulk');
-    imageToBase64({
+    var indexer = require('base64-indexer');
+    indexer({
 	    glob: 'input/*.{gif,jpg,png,svg}',
 	    output: 'output/',
 	    success: function() {
