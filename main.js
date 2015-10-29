@@ -48,10 +48,10 @@ function optimiseImages(options, success) {
  * ]
  */
 function convertFiles(options, files) {
-    var buffer = options.transformer.createBuffer();
+    var buffer = options.outputTransformer.createBuffer();
     files.forEach(function (file) {
-        var transformedItem = options.transformer.transform(options.nameTransformer, file);
-        options.transformer.updateBuffer(buffer, transformedItem);
+        var transformedItem = options.outputTransformer.transform(options.nameTransformer, file);
+        options.outputTransformer.updateBuffer(buffer, transformedItem);
         log('Converted file', path.basename(file.path));
     });
     var file = outputJsonFile(options, buffer);
@@ -81,7 +81,7 @@ function outputJsonFile(options, convertedFiles) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-// Transformers
+// Output Transformers
 //----------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -94,7 +94,7 @@ function outputJsonFile(options, convertedFiles) {
  * ]
  */
 
-var verboseTransformer = {
+var verboseOutputTransformer = {
     createBuffer: function() {
         return [];
     },
@@ -124,22 +124,22 @@ var verboseTransformer = {
  * }
  */
 
-var dictionaryTransformer = Object.create(verboseTransformer);
-dictionaryTransformer.createBuffer = function() {
+var dictionaryOutputTransformer = Object.create(verboseOutputTransformer);
+dictionaryOutputTransformer.createBuffer = function() {
     return {};
 };
-dictionaryTransformer.updateBuffer = function(buffer, item) {
+dictionaryOutputTransformer.updateBuffer = function(buffer, item) {
     buffer[item.name] = item.data;
 };
 
-var transformerFactory = function(key) {
+var outputTransformerFactory = function(key) {
     var map = {
-        'default': verboseTransformer,
-        'verbose': verboseTransformer,
-        'dictionary': dictionaryTransformer
+        'default': verboseOutputTransformer,
+        'verbose': verboseOutputTransformer,
+        'dictionary': dictionaryOutputTransformer
     };
     if (!map.hasOwnProperty(key)) {
-        throw new Error('Unknown transformer "' + key  + '" specified');
+        throw new Error('Unknown output transformer "' + key  + '" specified');
     }
     return map[key];
 };
@@ -153,9 +153,9 @@ var transformerFactory = function(key) {
  */
 function run(options) {
     silent = options.silent;
-    options.transformer = options.transformer ? options.transformer : transformerFactory('default');
-    if (typeof options.transformer === 'string') {
-        options.transformer = transformerFactory(options.transformer);
+    options.outputTransformer = options.outputTransformer ? options.outputTransformer : outputTransformerFactory('default');
+    if (typeof options.outputTransformer === 'string') {
+        options.outputTransformer = outputTransformerFactory(options.outputTransformer);
     }
     options.nameTransformer = options.nameTransformer ? options.nameTransformer : function(input) { return input; };
     if (typeof options.nameTransformer === 'string') {
@@ -181,7 +181,7 @@ function run(options) {
  */
 if (require.main === module) {
     var options = {};
-    options.transformer = argv.transformer ? transformerFactory(argv.transformer) : null;
+    options.outputTransformer = argv.outputTransformer ? outputTransformerFactory(argv.outputTransformer) : null;
     options.nameTransformer = argv.nameTransformer ? argv.nameTransformer : null;
     options.output = argv.output ? argv.output : null;
     options.glob = argv.glob ? argv.glob : null;

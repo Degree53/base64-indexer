@@ -72,7 +72,7 @@ describe('base64 indexer', function () {
                 glob: testFilePath,
                 output: outputFilePath,
                 success: checkOutput,
-                transformer: 'dictionary',
+                outputTransformer: 'dictionary',
                 nameTransformer: '(.*?)\\.[^.]+',
                 silent: true
             });
@@ -105,7 +105,7 @@ describe('base64 indexer', function () {
                 glob: testFilePath,
                 output: outputFilePath,
                 success: checkOutput,
-                transformer: 'dictionary',
+                outputTransformer: 'dictionary',
                 nameTransformer: function() {
                     return expectedFileName;
                 },
@@ -116,7 +116,7 @@ describe('base64 indexer', function () {
 
     });
 
-    describe('transformers', function () {
+    describe('output transformers', function () {
 
         it('must generate a verbose output for the verbose transformer', function (done) {
             var testFileName = 'degree53.png';
@@ -146,7 +146,7 @@ describe('base64 indexer', function () {
                 glob: testFilePath,
                 output: outputFilePath,
                 success: checkOutput,
-                transformer: 'verbose',
+                outputTransformer: 'verbose',
                 silent: true
             });
 
@@ -178,7 +178,7 @@ describe('base64 indexer', function () {
                 glob: testFilePath,
                 output: outputFilePath,
                 success: checkOutput,
-                transformer: 'dictionary',
+                outputTransformer: 'dictionary',
                 name: function(input) {
                     return input;
                 },
@@ -190,7 +190,3 @@ describe('base64 indexer', function () {
     });
 
 });
-
-
-// 1 - what to call it
-//
