@@ -179,9 +179,6 @@ describe('base64 indexer', function () {
                 output: outputFilePath,
                 success: checkOutput,
                 outputTransformer: 'dictionary',
-                name: function(input) {
-                    return input;
-                },
                 silent: true
             });
 
