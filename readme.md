@@ -41,6 +41,26 @@ When the process successfully completes the `success` callback is called and "Co
 
 If the process fails for any reason the `error` callback will be called instead and the exception message will be logged to the console.
 
+# Another Example
+
+Here's an example of how this has been used internally:
+
+```
+var base64indexer = require('./main');
+
+base64indexer({
+    glob: './input/*.{gif,jpg,png,svg}',
+    outputTransformer: 'dictionary',
+    output: './output/',
+    nameTransformer: function(input) {
+        return input.replace(/(.*?)\.[^.]+/, '$1')
+                    .toLowerCase()
+                    .replace('_home', '_H')
+                    .replace('_away', '_A');
+    }
+});
+```
+
 # Command Line Options
 
 | Option   | Description |
