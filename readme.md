@@ -8,7 +8,7 @@ Useful, for example, when you want to asynchronously load a set of base64 images
 
 # Installation
 
-```
+```bash
 npm install base64-indexer
 cd base64-indexer
 npm install
@@ -17,12 +17,15 @@ npm test
 
 # Command Line Usage
 
-    node main.js --glob=input/*.{gif,jpg,png,svg} --output=output/
+```bash
+node main.js --glob=input/*.{gif,jpg,png,svg} --output=output/
+```
 
 The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base64` and outputs a `JSON` file containing the results of the conversion to `output/`.
 
 # Node Usage
 
+```bash
     var indexer = require('base64-indexer');
     indexer({
 	    glob: 'input/*.{gif,jpg,png,svg}',
@@ -34,6 +37,7 @@ The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base
 	        console.log('Conversion error:', err.message);
 	    }
     });
+```
 
 The above example converts all `.gif`, `.jpg`, `.png` and `.svg` images to `base64` and outputs a `JSON` file containing the results of the conversion to `output/`.
 
@@ -45,7 +49,7 @@ If the process fails for any reason the `error` callback will be called instead 
 
 Here's an example of how this has been used internally:
 
-```
+```bash
 var base64indexer = require('./main');
 
 base64indexer({
@@ -89,7 +93,7 @@ Output transformers change the way the output file is generated.  The following 
 
 The verbose transformer output data as an array of verbose objects:
 
-```
+```js
 [
     { name: 'file1.png', data: '...base 64 data...' },
     { name: 'file2.png', data: '...base 64 data...' },
@@ -101,7 +105,7 @@ The verbose transformer output data as an array of verbose objects:
 
 The dictionary transformer outputs data as an dictionary/map:
 
-```
+```js
 {
     'file1.png': '...base 64 data...',
     'file2.png': '...base 64 data...',
