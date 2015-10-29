@@ -73,7 +73,6 @@ function convertFiles(options, files) {
         options.transformer.updateBuffer(buffer, transformedItem);
         log('Converted file', path.basename(file.path));
     });
-    console.log(buffer);
     var file = outputJsonFile(options, buffer);
     !options.success || options.success(file);
 }
@@ -174,7 +173,9 @@ var transformerFactory = function(key) {
 function run(options) {
     silent = options.silent;
     options.transformer = options.transformer ? options.transformer : transformerFactory('default');
-    // TODO: make sure options.transformer is callable
+    if (typeof options.transformer === 'string') {
+        options.transformer = transformerFactory(options.transformer);
+    }
     options.error = options.error || function (err) {
         throw err;
     };
