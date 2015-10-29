@@ -48,6 +48,7 @@ If the process fails for any reason the `error` callback will be called instead 
 | --output | Relative path to the output directory.  Defaults to 'output/' |
 | --glob   | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
 | --transformer | The transformer to use for the output format (`verbose` or `dictionary`)|
+| --nameTransformer | A regex pattern used for name transformation.  The new name will be a concatenation of the capture groups. | 
 
 # Node Options
 
@@ -58,6 +59,7 @@ If the process fails for any reason the `error` callback will be called instead 
 | success | Success callback - called after a successful conversion |
 | error   | Error callback - called if an error occurs during conversion |
 | transformer | The transformer to use for the output format.  String or object.  Available transformers: `verbose` or `dictionary`. |
+| nameTransformer | A regex pattern or function used for name transformation.  If a regex pattern is provided the new name will be a concatenation of the capture groups. If a function is provided the output of the function will be used as the new name. | 
 
 # Transformers
 

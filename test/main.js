@@ -1,3 +1,4 @@
+//noinspection JSUnusedGlobalSymbols
 var must = require('must');
 var indexer = require('./../main.js');
 var fs = require('fs');
@@ -39,6 +40,78 @@ describe('base64 indexer', function () {
             output: outputFilePath,
             success: checkOutput,
             silent: true
+        });
+
+    });
+
+    describe('name transformer', function () {
+
+        it('must transform a name by regex string', function (done) {
+            var testFilePath = 'test/assets/input/degree53.png';
+            var outputFilePath = 'test/assets/output/';
+            var expectedFileName = 'degree53';
+
+            // Called after indexer has generated the output file
+            var checkOutput = function (outputFilePath) {
+                var outputFileContents = fs.readFileSync(outputFilePath);
+                var output = JSON.parse(outputFileContents);
+
+                // Delete the output file now we're finished
+                fs.unlink(outputFilePath);
+
+                // Make sure the output matches our expectations
+                output.must.be.object();
+                output.must.have.property(expectedFileName);
+
+                done();
+
+            };
+
+            // Start indexing the specified files
+            indexer({
+                glob: testFilePath,
+                output: outputFilePath,
+                success: checkOutput,
+                transformer: 'dictionary',
+                nameTransformer: '(.*?)\\.[^.]+',
+                silent: true
+            });
+
+        });
+
+        it('must transform a name by lambda function', function (done) {
+            var testFilePath = 'test/assets/input/degree53.png';
+            var outputFilePath = 'test/assets/output/';
+            var expectedFileName = 'hello world';
+
+            // Called after indexer has generated the output file
+            var checkOutput = function (outputFilePath) {
+                var outputFileContents = fs.readFileSync(outputFilePath);
+                var output = JSON.parse(outputFileContents);
+
+                // Delete the output file now we're finished
+                fs.unlink(outputFilePath);
+
+                // Make sure the output matches our expectations
+                output.must.be.object();
+                output.must.have.property(expectedFileName);
+
+                done();
+
+            };
+
+            // Start indexing the specified files
+            indexer({
+                glob: testFilePath,
+                output: outputFilePath,
+                success: checkOutput,
+                transformer: 'dictionary',
+                nameTransformer: function() {
+                    return expectedFileName;
+                },
+                silent: true
+            });
+
         });
 
     });
@@ -106,6 +179,9 @@ describe('base64 indexer', function () {
                 output: outputFilePath,
                 success: checkOutput,
                 transformer: 'dictionary',
+                name: function(input) {
+                    return input;
+                },
                 silent: true
             });
 
@@ -114,3 +190,7 @@ describe('base64 indexer', function () {
     });
 
 });
+
+
+// 1 - what to call it
+//
