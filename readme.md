@@ -6,6 +6,15 @@ Converts a specified set of files to base64, outputting a JSON file that contain
 
 Useful, for example, when you want to asynchronously load a set of base64 images in a single request.
 
+# Installation
+
+```
+npm install base64-indexer
+cd base64-indexer
+npm install
+npm test
+```
+
 # Command Line Usage
 
     node main.js --glob=input/*.{gif,jpg,png,svg} --output=output/
@@ -38,6 +47,7 @@ If the process fails for any reason the `error` callback will be called instead 
 |----------|-------------|
 | --output | Relative path to the output directory.  Defaults to 'output/' |
 | --glob   | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
+| --transformer | The transformer to use for the output format |
 
 # Node Options
 
@@ -46,4 +56,33 @@ If the process fails for any reason the `error` callback will be called instead 
 | output  | Relative path to the output directory.  Defaults to 'output/' |
 | glob    | Pattern for matching input files.  Defaults to 'input/*.{gif,jpg,png,svg}' |
 | success | Success callback - called after a successful conversion |
-| error   | Error callback - called if an error occurs during conversion
+| error   | Error callback - called if an error occurs during conversion |
+| transformer | The transformer to use for the output format |
+
+# Transformers
+
+Transformers change the way the output file is generated.  The following transformers are available:
+
+## Verbose (Default)
+
+The verbose transformer output data as an array of verbose objects:
+
+```
+[
+    { name: 'file1.png', data: '...base 64 data...' },
+    { name: 'file2.png', data: '...base 64 data...' },
+    { name: 'file3.png', data: '...base 64 data...' }
+}
+```
+
+## Dictionary 
+
+The dictionary transformer outputs data as an dictionary/map:
+
+```
+{
+    'file1.png': '...base 64 data...',
+    'file2.png': '...base 64 data...',
+    'file3.png': '...base 64 data...'
+}
+```
