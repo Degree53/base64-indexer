@@ -39,34 +39,22 @@ function optimiseImages(options, success) {
 
     // Extract options
     var error = options.error;
-    var glob = options.glob || 'input/*.{gif,jpg,png,svg}'
+    var glob = options.glob || 'input/*.{gif,jpg,png,svg}';
 
     // Minify files
-    var imagemin = new Imagemin()
-            .src(glob)
-            .use(Imagemin.jpegtran({progressive: true}))
-            .run(function (err, files) {
-                if (err) {
-                    if (error) {
-                        error(err);
-                        return;
-                    }
-                    throw err;
+    new Imagemin()
+        .src(glob)
+        .use(Imagemin.jpegtran({progressive: true}))
+        .run(function (err, files) {
+            if (err) {
+                if (error) {
+                    error(err);
+                    return;
                 }
-                success(options, files);
-            });
-}
-
-/**
- * Converts the specified vinyl file to a base64 representation
- */
-function convertToBase64(file) {
-    var fileMime = mime.lookup(file.path);
-    var prefix = 'data:' + fileMime + ';base64,';
-    return {
-        name: path.basename(file.path),
-        data: prefix + file.contents.toString('base64')
-    };
+                throw err;
+            }
+            success(options, files);
+        });
 }
 
 /**
@@ -79,13 +67,15 @@ function convertToBase64(file) {
  * ]
  */
 function convertFiles(options, files) {
-    var buffer = [];
+    var buffer = options.transformer.createBuffer();
     files.forEach(function (file) {
-        buffer.push(convertToBase64(file));
+        var transformedItem = options.transformer.transform(file);
+        options.transformer.updateBuffer(buffer, transformedItem);
         log('Converted file', path.basename(file.path));
     });
+    console.log(buffer);
     var file = outputJsonFile(options, buffer);
-    options.success(file);
+    !options.success || options.success(file);
 }
 
 /**
@@ -110,14 +100,84 @@ function outputJsonFile(options, convertedFiles) {
     return file;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+// Transformers
+//----------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Verbose transformer
+ * Transforms data to a verbose format:
+ * [
+ *      { name: 'file1.png', data: '...base 64 data...' },
+ *      { name: 'file2.png', data: '...base 64 data...' },
+ *      { name: 'file3.png', data: '...base 64 data...' }
+ * }
+ */
+
+var verboseTransformer = {
+    createBuffer: function() {
+        return [];
+    },
+    updateBuffer: function(buffer, item) {
+        buffer.push(item);
+    },
+    /**
+     * Converts the specified vinyl file to a base64 representation
+     */
+    transform: function(file) {
+        var fileMime = mime.lookup(file.path);
+        var prefix = 'data:' + fileMime + ';base64,';
+        return {
+            name: path.basename(file.path),
+            data: prefix + file.contents.toString('base64')
+        };
+    }
+};
+
+/**
+ * Dictionary transformer
+ * Transforms data to a dictionary format:
+ * {
+ *     'file1.png': '...base 64 data...',
+ *     'file2.png': '...base 64 data...',
+ *     'file3.png': '...base 64 data...'
+ * }
+ */
+
+var dictionaryTransformer = Object.create(verboseTransformer);
+dictionaryTransformer.createBuffer = function() {
+    return {};
+};
+dictionaryTransformer.updateBuffer = function(buffer, item) {
+    buffer[item.name] = item.data;
+};
+
+var transformerFactory = function(key) {
+    var map = {
+        'default': verboseTransformer,
+        'verbose': verboseTransformer,
+        'dictionary': dictionaryTransformer
+    };
+    if (!map.hasOwnProperty(key)) {
+        throw new Error('Unknown transformer "' + key  + '" specified');
+    }
+    return map[key];
+};
+
+//----------------------------------------------------------------------------------------------------------------------
+// Running
+//----------------------------------------------------------------------------------------------------------------------
+
 /**
  * Called with options to run this script and convert specified files to base64.
  */
 function run(options) {
     silent = options.silent;
+    options.transformer = options.transformer ? options.transformer : transformerFactory('default');
+    // TODO: make sure options.transformer is callable
     options.error = options.error || function (err) {
-                throw err;
-            }
+        throw err;
+    };
     optimiseImages(options, convertFiles);
 }
 
@@ -127,6 +187,7 @@ function run(options) {
  */
 if (require.main === module) {
     var options = {};
+    options.transformer = argv.transformer ? transformerFactory(argv.transformer) : null;
     options.output = argv.output ? argv.output : null;
     options.glob = argv.glob ? argv.glob : null;
     run(options);
