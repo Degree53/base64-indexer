@@ -1,6 +1,6 @@
 {
   "name": "base64-indexer",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Converts a specified set of files to base64, outputting a JSON file that contains the result of each file.",
   "main": "main.js",
   "dependencies": {
